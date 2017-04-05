@@ -1,29 +1,34 @@
+import swarm.Particle;
+import swarm.Swarm;
+
+import java.util.function.Function;
 
 public class Main {
     public static void main(String[] args) {
+        Function<swarm.Pair<Double, Double>, Double> function
+                = (swarm.Pair<Double, Double> a) -> Math.pow(a.getFirst(), 2.0) + Math.pow(a.getSecond(), 2.0) -20 * (Math.cos(Math.PI*a.getFirst()) + Math.cos(Math.PI*a.getSecond()) - 2.0);
 
-        Population population = new Population(20);
+        final double c1 = 1.0;
+        final double c2 = 1.0;
 
-        population.generateRandomPopulation(22);
+        swarm.Pair<Double, Double> xEdge = new swarm.Pair<>(-10.0, 10.0);
+        swarm.Pair<Double, Double> yEdge = new swarm.Pair<>(-10.0, 10.0);
 
-        population.generateFitnessForChromes((Double x) -> x*Math.sin(10*Math.PI * x) + 1.0, -1.0, 2.0, 10.0);
+        final int populationSize = 40;
 
-        population.sortPopulationByFitness();
+        Swarm swarm = new Swarm(xEdge, yEdge, populationSize);
 
-        GA ga = new GA(population);
+        swarm.evaluateFitnessInPopulation(function);
 
-        for (int i = 0; i < 100000; i++) {
-            System.out.println("\n---------------------------ITERATION : " + i);
+        Particle gBest = swarm.getGlobalBest();
 
-            ga.selectParents();
-            ga.crossOver();
-            ga.mutate();
+        swarm.getPopulation().printPopulation();
 
-            population = ga.getPopulation();
-            population.generateFitnessForChromes((Double x) -> x*Math.sin(10*Math.PI * x) + 1.0, -1.0, 2.0, 10.0);
-            ga.getPopulation().sortPopulationByFitness();
-        }
+        System.out.println("gBest: " +gBest);
 
-        System.out.println("Function maximum: " + (ga.getPopulation().getChromes().get(19).getFitness()-10.0));
+        swarm.updateParticlePlacementAndVelocity(c1, c2, gBest.getPersonalBest());
+
+        System.out.println("\n--------------------------------------------\n");
+        swarm.getPopulation().printPopulation();
     }
 }
