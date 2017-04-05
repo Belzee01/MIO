@@ -2,9 +2,11 @@
 import com.google.common.base.Function;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 @Accessors(chain = true)
+@ToString
 public class Chromosom {
 
     @Getter
@@ -56,5 +58,10 @@ public class Chromosom {
     public void calculateFitness(Function<Double, Double> function, double start, double end, double additional) {
         this.fitness = function.apply(getFenotype(this.chrome, start, end)) + additional;
 //        System.out.println("getFenotype : " + chrome + " start: " + start + " end: " +end + " fitness: " + this.fitness);
+    }
+
+    @Override
+    public String toString() {
+        return this.getChrome();
     }
 }

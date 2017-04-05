@@ -12,7 +12,7 @@ public class Main {
 
         GA ga = new GA(population);
 
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 100; i++) {
             System.out.println("\n---------------------------ITERATION : " + i);
 
             ga.selectParents();

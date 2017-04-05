@@ -23,12 +23,7 @@ public class GA {
 
     public void selectParents() {
 
-        while(population.getChromes().size() > 0) {
-            if (population.getChromes().size() == 1) {
-                this.newPopulation.getChromes().add(population.getChromes().get(0));
-                this.population.getChromes().remove(population.getChromes().get(0));
-                break;
-            }
+        while(population.getChromes().size() > 12) {
             final Chromosom[] newParents = {null, null};
             for (int i = 0; i < 2; i++) {
                 final double[] maxFitness = {0.0};
@@ -54,9 +49,8 @@ public class GA {
                         break;
                     }
                 }
-//                System.out.println("Selected: " + randomValue[0]);
 
-                //System.out.println(i + " parent: " + newParents[i].getFitness());
+//                System.out.println(i + " parent: " + newParents[i].getFitness());
             }
 
             parents.add(new Pair<>(newParents[0], newParents[1]));
@@ -64,9 +58,9 @@ public class GA {
 //            System.out.println("Population size : " + population.getChromes().size());
         }
 
-//        parents.forEach(p -> {
-//            System.out.println("First parent : " + p.getFirst().getFitness() + " ------ Second parent : " + p.getSecond().getFitness());
-//        });
+        parents.forEach(p -> {
+            System.out.println("First parent : " + p.getFirst().getChrome() + " ------ Second parent : " + p.getSecond().getChrome());
+        });
     }
 
     public void crossOver() {
@@ -98,8 +92,10 @@ public class GA {
 
             this.newPopulation.addChrome(firstChild);
             this.newPopulation.addChrome(secondChild);
+
+            System.out.println("New 1 child : " + firstChild + " new 2 child: " +secondChild);
         });
-        this.population = this.newPopulation;
+        this.population.getChromes().addAll(this.newPopulation.getChromes());
         this.parents.clear();
     }
 
