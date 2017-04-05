@@ -66,7 +66,7 @@ public class Swarm {
 
     private double evaluateEdgeValueX(Double value) {
         boolean flag = false;
-        double newValue = 0.0;
+        double newValue = value;
         do {
             if (value > this.population.getXEnd()) {
                 double temp = Math.abs(value - this.population.getXEnd());
@@ -83,15 +83,15 @@ public class Swarm {
 
     private double evaluateEdgeValueY(Double value) {
         boolean flag = false;
-        double newValue = 0.0;
+        double newValue = value;
         do {
             if (value > this.population.getXEnd()) {
-                double temp = Math.abs(value - this.population.getYEnd());
+                double temp = Math.abs(newValue - this.population.getYEnd());
                 newValue = this.population.getYEnd() - temp;
             } flag = true;
             if(value < this.population.getYStart()) {
                 flag = false;
-                double temp = Math.abs(value - this.population.getYStart());
+                double temp = Math.abs(newValue - this.population.getYStart());
                 newValue = this.population.getXEnd() + temp;
             }
         } while (!flag);
